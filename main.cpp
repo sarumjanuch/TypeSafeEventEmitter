@@ -9,19 +9,18 @@ int main() {
 
     // This defines the actual events that can be emitted.
 
+    auto myClass = new MyClass();
 
-    MyClass myClass;
-
-    myClass.events.Subscribe<MyClass::BWE_EVENTS::INCREASE>([](auto &event) {
+    myClass->events.Subscribe<BWE_EVENTS::INCREASE>([](auto event) {
 
                   });
 
-    myClass.events.Subscribe<MyClass::BWE_EVENTS::DECREASE>([](auto args) {
+/*    myClass.events.Subscribe<BWE_EVENTS::DECREASE>([](auto args) {
         std::cout << "a=" << args->a << " b=" << args->b << std::endl;
-    });
+    });*/
 
 
-    std::cout << "This should invoke the increase handler." << std::endl;
+/*    std::cout << "This should invoke the increase handler." << std::endl;
     myClass.events.Emit<MyClass::BWE_EVENTS::INCREASE>({
             .a = 6.5,
             .b = 7.8,
@@ -31,5 +30,5 @@ int main() {
     myClass.events.Emit<MyClass::BWE_EVENTS::DECREASE>(auto {
             .a = 6.5,
             .b = 7.8,
-    });
+    });*/
 }

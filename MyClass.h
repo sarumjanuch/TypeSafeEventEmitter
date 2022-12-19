@@ -3,23 +3,25 @@
 #ifndef TYPESAFEEVENTEMITTER_MYCLASS_H
 #define TYPESAFEEVENTEMITTER_MYCLASS_H
 
-
+enum class BWE_EVENTS {
+    INCREASE,
+    DECREASE,
+    NUM_EVENT_TYPES,  // This must be last, it's a trick for counting the number
+                    // of enum elements.
+};
 
 class MyClass {
 public:
-    enum class BWE_EVENTS {
-        INCREASE,
-        DECREASE,
-        NUM_EVENT_TYPES,  // This must be last, it's a trick for counting the number
-                        // of enum elements.
-    };
+    MyClass() = default;
+    ~MyClass() = default;
+
     EventEmitter<BWE_EVENTS> events;
 
     template <>
-    struct EventHandlerInfo<BWE_EVENTS::DECREASE> {
+    struct EventHandlerInfo<BWE_EVENTS::INCREASE> {
         struct event {
-            float a;
-            float b;
+            int a;
+            int b;
         };
     };
 };

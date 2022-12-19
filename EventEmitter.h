@@ -13,19 +13,22 @@ class HandlerStorageBase {
     virtual void Handle(void* args) = 0;
 };
 
-template <typename EVENTS, typename std::enable_if<std::is_enum<EVENTS>::value>::type* = nullptr>
-struct EventHandlerInfo {
-    // This base case will cause a compile error for any BWE_EVENT types that
-    // haven't been specialized and therefore don't have an Args signature.
-};
 
 template <typename EVENTS, typename std::enable_if<std::is_enum<EVENTS>::value>::type* = nullptr>
 class EventEmitter {
 public:
+    EventEmitter() = default;
     ~EventEmitter() = default;
 
+    template <EVENTS>
+    struct EventHandlerInfo {
+        // This base case will cause a compile error for any BWE_EVENT types that
+        // haven't been specialized and therefore don't have an Args signature.
+    };
+
+    template <EVENTS T>
     struct HandlerStorage : public HandlerStorageBase {
-        using EventArgsType = typename EventHandlerInfo<EVENTS>::event;
+        using EventArgsType = typename EventHandlerInfo<T>::event;
         using HandlerType = std::function<void(EventArgsType*)>;
 
         HandlerStorage(HandlerType handler) : handler_(handler) {}
@@ -56,7 +59,7 @@ public:
     std::array<std::unique_ptr<HandlerStorageBase>,
                (size_t)EVENTS::NUM_EVENT_TYPES>
             handlers_;
-    EventEmitter() = default;
 };
+
 
 #endif//TYPESAFEEVENTEMITTER_EVENTEMITTER_HPP

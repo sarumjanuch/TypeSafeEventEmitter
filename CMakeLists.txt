@@ -3,4 +3,4 @@ project(TypeSafeEventEmitter)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(TypeSafeEventEmitter main.cpp)
+add_executable(TypeSafeEventEmitter EventEmitter.h MyClass.h main.cpp)
