@@ -23,6 +23,7 @@ template <typename EVENTS, typename std::enable_if<std::is_enum<EVENTS>::value>:
 class EventEmitter {
 public:
     ~EventEmitter() = default;
+
     struct HandlerStorage : public HandlerStorageBase {
         using EventArgsType = typename EventHandlerInfo<EVENTS>::event;
         using HandlerType = std::function<void(EventArgsType*)>;
@@ -41,7 +42,7 @@ public:
         HandlerType handler_;
     };
 
-    template <EVENTS T, typename std::enable_if<std::is_enum<EVENTS>::value>::type* = nullptr>
+    template <EVENTS T>
     void Subscribe(typename HandlerStorage<T>::HandlerType handler) {
         handlers_[static_cast<std::size_t>(T)] =
                 std::make_unique<HandlerStorage<T>>(handler);
