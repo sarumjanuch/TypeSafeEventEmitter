@@ -1,9 +1,6 @@
-
-#include <array>
-#include <forward_list>
+#include "MyClass.h"
 #include <functional>
 #include <iostream>
-#include "MyClass.h"
 
 int main() {
 
@@ -11,24 +8,15 @@ int main() {
 
     auto myClass = new MyClass();
 
-    myClass->events.Subscribe<BWE_EVENTS::INCREASE>([](auto &event) {
-
-                  });
-
-/*    myClass.events.Subscribe<BWE_EVENTS::DECREASE>([](auto args) {
-        std::cout << "a=" << args->a << " b=" << args->b << std::endl;
-    });*/
-
-
-/*    std::cout << "This should invoke the increase handler." << std::endl;
-    myClass.events.Emit<MyClass::BWE_EVENTS::INCREASE>({
-            .a = 6.5,
-            .b = 7.8,
+    myClass->events.Subscribe<BWE_EVENTS::INCREASE>([](const auto &args) {
+        std::cout << "a=" << args.a << " b=" << args.b << std::endl;
     });
 
-    std::cout << "This should invoke the decrease handler." << std::endl;
-    myClass.events.Emit<MyClass::BWE_EVENTS::DECREASE>(auto {
-            .a = 6.5,
-            .b = 7.8,
-    });*/
+    myClass->events.Subscribe<BWE_EVENTS::DECREASE>([](const auto &args) {
+        std::cout << "a=" << args.a << " b=" << args.b << std::endl;
+    });
+
+    myClass->events.Emit<BWE_EVENTS::INCREASE>({.a = 1, .b = 2});
+
+    myClass->events.Emit<BWE_EVENTS::DECREASE>({.a = 6.5, .b = 7.5});
 }
