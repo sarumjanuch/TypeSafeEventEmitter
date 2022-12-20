@@ -11,7 +11,7 @@ int main() {
 
     auto myClass = new MyClass();
 
-    myClass->events.Subscribe<BWE_EVENTS::INCREASE>([](auto event) {
+    myClass->events.Subscribe<BWE_EVENTS::INCREASE>([](auto &event) {
 
                   });
 
